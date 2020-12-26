@@ -8,7 +8,7 @@ class InputBox extends Component {
   // }
   render() {
     return (
-      <div className="InputDiv">
+      <div className="InputBox">
         <textarea className="textarea"></textarea>
         <button className="send" onClick={this.props.sendFunction}>Send</button>
       </div >

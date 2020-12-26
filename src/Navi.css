@@ -1,5 +1,8 @@
 .Navi{
-  height: 5vh;
+  min-height: 5vh;
+  max-height: 5vh;
+  display: flex;
+  justify-content: center;
   background-color: #484c54;
   color: white;
 }

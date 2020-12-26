@@ -19,11 +19,11 @@ class App extends Component {
     this.setState({ share: this.state.share + 1 });
   };
   render() {
-    if (this.state.isLoggedIn) {
+    if (!this.state.isLoggedIn) {
       return (
         <div className="App">
-          <Navi className="Navi" />
-          <ChatBoard className="ChatBoard" share={this.state.share} getFunction={this.getFunction} />
+          <Navi />
+          <ChatBoard share={this.state.share} getFunction={this.getFunction} />
           <InputBox name="input" share={this.state.share} sendFunction={this.sendFunction} />
         </div>
       );

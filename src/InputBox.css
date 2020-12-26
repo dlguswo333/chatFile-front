@@ -3,15 +3,17 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
-.InputDiv{
+.InputBox{
     display: flex;
-    min-height: 15%;
+    min-height: 10vh;
+    max-height: 10vh;
     background-color: #484c54;
     text-align: center;
     justify-content: center;
     padding: 5px;
 }
 .textarea{
+    color: whitesmoke;
     border: 1px solid white;
     background-color: #484c54;
     width: 70%;
