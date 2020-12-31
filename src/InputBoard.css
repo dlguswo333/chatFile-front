@@ -1,12 +1,23 @@
-.Navi{
-  height: 5vh;
+.InputBoard{
   display: flex;
-  justify-content: center;
+  min-height: 10vh;
+  max-height: 10vh;
   background-color: #484c54;
-  color: white;
+  text-align: center;
+  justify-content: center;
+  padding: 5px;
+}
+.InputArea{
+  color: whitesmoke;
+  border: 1px solid white;
+  background-color: #484c54;
+  width: 70%;
+  font-size: 12pt;
+  border-radius: 5px;
+  resize: none;   
   overflow: hidden;
 }
-.NaviButton{
+.SendButton{
   border-radius: none;
   align-self: stretch;
   background-color: #313131;
@@ -19,6 +30,6 @@
   margin-left: 0.1%;
   margin-right: 0.1%;
 }
-.NaviButton:hover{
+.SendButton:hover{
   background-color: #CA3E47;
 }
