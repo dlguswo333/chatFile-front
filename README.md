@@ -25,8 +25,8 @@ You can find the back-end side Github repository at [here](https://github.com/dl
 
 ## Version History
 ### 0.1.0
-  🔲 Add SQLite database to store user informations
-  🔲 Add sign up feature
-  🔲 Add sign in feature
-  🔲 Add chat with file feature
-  ✅ Add chat with text feature
+  🔲 Add SQLite database to store user informations  
+  🔲 Add sign up feature  
+  🔲 Add sign in feature  
+  🔲 Add chat with file feature  
+  ✅ Add chat with text feature  
