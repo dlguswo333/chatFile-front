@@ -5,8 +5,11 @@
   border-radius: 5px;
   border: 1px solid #484c54;
   white-space: pre-wrap;
+  word-break: break-all;
   text-align: left;
   font-size: 12pt;
+  animation-duration: 1s;
+  animation-name: animate_mymessage;
 
   margin-left: auto;
   margin-right: 20px;
@@ -21,14 +24,33 @@
   border-radius: 5px;
   border: 1px solid #484c54;
   white-space: pre-wrap;
+  word-break: break-all;
   text-align: left;
   font-size: 12pt;
+  animation-duration: 0.5s;
+  animation-name: animate_othermessage;
 
   margin-left: 20px;
   margin-right: auto;
   margin-top: 10px;
   margin-bottom: 10px;
   background-color: #018786;
+}
+@keyframes animate_mymessage{
+  from {
+    transform: translateX(10vw);
+  }
+  to{
+    transform: translateX(0);
+  }
+}
+@keyframes animate_othermessage{
+  from {
+    transform: translateX(-10vw);
+  }
+  to{
+    transform: translateX(0);
+  }
 }
 .UserNameDiv{
   font-size: 10pt;

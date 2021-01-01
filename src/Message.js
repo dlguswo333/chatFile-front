@@ -4,7 +4,7 @@ import './Message.css';
 class Message extends Component {
   getDate() {
     const date = new Date(this.props.date);
-    return date.toDateString();
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   }
   render() {
     return (
