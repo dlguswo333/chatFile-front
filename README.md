@@ -22,3 +22,12 @@ You can find the back-end side Github repository at [here](https://www.github.co
     to design web interactive UI.
   2. [socket.io-client](https://socket.io/)  
     to synchronize client's chat and server's chat real-time.
+
+## Version History
+### 0.1.0
+  #### ToDo List
+    🔲 Add SQLite database to store user informations
+    🔲 Add sign up feature
+    🔲 Add sign in feature
+    🔲 Add chat with file feature
+    ✅ Add chat with text feature
