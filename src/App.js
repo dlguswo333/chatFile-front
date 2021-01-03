@@ -5,10 +5,10 @@ import io from 'socket.io-client';
 import Navi from './Navi';
 import Login from './Login';
 import './App.css';
+import data from './data';
 
-const server_port = 8000;
-const socket = io(`localhost:${server_port}`);
-
+const socket = io(`localhost:${data.back_port}`);
+console.log(`localhost:${data.back_port}`);
 class App extends Component {
   constructor(props) {
     super(props);
@@ -23,19 +23,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-    socket.on('connect', () => {
+    socket.on(data.front_connect, () => {
       this.setState({
         myUserName: socket.id,
       });
+      console.log(socket.id);
     });
 
-    socket.on('full message list', (fullMessageList) => {
+    socket.on(data.full_message_list, (fullMessageList) => {
       this.setState({
         messageList: fullMessageList
       });
     });
 
-    socket.on('chat message', (message) => {
+    socket.on(data.new_message, (message) => {
       // reject duplicated message if there is any
       if (this.state.messageList !== [] || message.key !== this.state.messageList[this.state.messageList.length - 1].key)
         this.onReceive(message);
@@ -50,7 +51,7 @@ class App extends Component {
     var message = {};
     message['userName'] = socket.id;
     message['value'] = this.state.inputText;
-    socket.emit('chat message', message);
+    socket.emit(data.new_message, message);
   };
   onReceive(message) {
     this.setState({
