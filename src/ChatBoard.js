@@ -12,11 +12,11 @@ class ChatBoard extends Component {
   }
   getMessages() {
     const messageList = this.props.messageList.map((message) => {
-      return <Message key={message['date']}
+      return <Message
         className={(message.userName === this.props.myUserName ? "MyMessage" : "OtherMessage")}
-        userName={message.userName}
-        value={message.value}
-        date={message.date}
+        key={message.key}
+        downloadFile={this.props.downloadFile}
+        message={message}
       />
 
     });

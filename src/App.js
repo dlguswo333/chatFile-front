@@ -1,4 +1,6 @@
 import { React, Component } from 'react';
+import axios from 'axios';
+
 import ChatBoard from './ChatBoard';
 import InputBoard from './InputBoard';
 import io from 'socket.io-client';
@@ -8,7 +10,7 @@ import './App.css';
 import data from './data';
 
 const socket = io(`localhost:${data.back_port}`);
-console.log(`localhost:${data.back_port}`);
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +20,9 @@ class App extends Component {
       isLoggedIn: false,
       inputText: '',
     };
-    this.onSend = this.onSend.bind(this);
+    this.sendText = this.sendText.bind(this);
+    this.sendFile = this.sendFile.bind(this);
+    this.downloadFile = this.downloadFile.bind(this);
     this.onInputTextChange = this.onInputTextChange.bind(this);
   }
 
@@ -47,12 +51,47 @@ class App extends Component {
     this.setState({ inputText: value });
   }
 
-  onSend() {
+  sendText() {
     var message = {};
-    message['userName'] = socket.id;
+    message['userName'] = this.state.myUserName;
     message['value'] = this.state.inputText;
     socket.emit(data.new_message, message);
   };
+  sendFile(files) {
+    const file = files[0];
+    if (file.size > data.max_file_size) {
+      alert('File size is too big!');
+      return;
+    }
+    var formData = new FormData();
+    formData.append('file', file);
+    formData.append('userName', this.state.myUserName);
+    axios.post(`http://localhost:${data.back_port}/files`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: (e) => {
+        console.log(Math.round(100 * e.loaded / e.total));
+      }
+    }).then((res) => {
+      console.log('sended file ' + file);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+  downloadFile(key) {
+    var link = `http://localhost:${data.back_port}/files/${key}`;
+    var a = document.createElement('A');
+    a.href = link;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // downloadFile(key) {
+  //   axios.get(`${data.${key}`)
+  // }
+
   onReceive(message) {
     this.setState({
       messageList: [...this.state.messageList, message]
@@ -63,8 +102,18 @@ class App extends Component {
       return (
         <div className="App">
           <Navi />
-          <ChatBoard messageList={this.state.messageList} myUserName={this.state.myUserName} getFunction={this.getFunction} />
-          <InputBoard name="input" input={this.state.inputText} onInputTextChange={this.onInputTextChange} onSend={this.onSend} />
+          <ChatBoard
+            messageList={this.state.messageList}
+            myUserName={this.state.myUserName}
+            getFunction={this.getFunction}
+            downloadFile={this.downloadFile}
+          />
+          <InputBoard name="input"
+            input={this.state.inputText}
+            onInputTextChange={this.onInputTextChange}
+            sendText={this.sendText}
+            sendFile={this.sendFile}
+          />
         </div>
       );
     }

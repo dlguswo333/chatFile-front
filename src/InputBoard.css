@@ -29,7 +29,8 @@
   padding-right: 1%;
   margin-left: 0.1%;
   margin-right: 0.1%;
+  transition: 0.3s;
 }
 .SendButton:hover{
-  background-color: #CA3E47;
+  background-color: crimson;
 }

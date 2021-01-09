@@ -52,6 +52,24 @@
     transform: translateX(0);
   }
 }
+.DownloadButton{
+  width: 90%;
+  border-radius: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  background-color: #313131;
+  color: white;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  transition: 0.3s;
+}
+.DownloadButton:hover{
+  background-color: crimson;
+}
 .UserNameDiv{
   font-size: 10pt;
   margin-bottom: 5px;
@@ -63,5 +81,9 @@
   font-size: 10pt;
   margin-top: 5px;
   padding-top: 5px;
+  text-align: right;
+}
+.FileDiv{
+  margin: 5px;
   text-align: right;
 }
