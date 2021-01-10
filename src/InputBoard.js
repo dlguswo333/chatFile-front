@@ -31,6 +31,7 @@ class InputBoard extends Component {
       <div className="InputBoard">
         <textarea className="InputArea" placeholder="Ctrl+Enter to send the text"
           ref={this.refTextArea}
+          maxLength={1000}
           onChange={(e) => {
             this.props.onInputTextChange(e.target.value);
           }}></textarea>

@@ -35,7 +35,7 @@ class Message extends Component {
   }
   render() {
     return (
-      <div className={this.props.className}>
+      <div className={`Message ${this.props.className}`}>
         <div className="UserNameDiv">
           {this.props.message.userName}
         </div>
@@ -45,7 +45,7 @@ class Message extends Component {
         <div className="DateDiv">
           {this.getDate()}
         </div>
-      </div>
+      </div >
     )
   }
 }
