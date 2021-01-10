@@ -1,4 +1,4 @@
-import { React, Component } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 
 import ChatBoard from './ChatBoard';
@@ -20,6 +20,8 @@ class App extends Component {
       isLoggedIn: false,
       inputText: '',
     };
+    this.refChatBoard = React.createRef();
+
     this.sendText = this.sendText.bind(this);
     this.sendFile = this.sendFile.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
@@ -57,6 +59,7 @@ class App extends Component {
     message['value'] = this.state.inputText;
     socket.emit(data.new_message, message);
   };
+
   sendFile(files) {
     const file = files[0];
     if (file.size > data.max_file_size) {
@@ -79,6 +82,7 @@ class App extends Component {
       console.log(err);
     })
   }
+
   downloadFile(key) {
     var link = `http://localhost:${data.back_port}/files/${key}`;
     var a = document.createElement('A');
@@ -88,14 +92,11 @@ class App extends Component {
     document.body.removeChild(a);
   }
 
-  // downloadFile(key) {
-  //   axios.get(`${data.${key}`)
-  // }
-
   onReceive(message) {
     this.setState({
       messageList: [...this.state.messageList, message]
     });
+    this.refChatBoard.current.scrollToBottom();
   }
   render() {
     if (!this.state.isLoggedIn) {
@@ -107,6 +108,7 @@ class App extends Component {
             myUserName={this.state.myUserName}
             getFunction={this.getFunction}
             downloadFile={this.downloadFile}
+            ref={this.refChatBoard}
           />
           <InputBoard name="input"
             input={this.state.inputText}

@@ -1,4 +1,4 @@
-import { React, Component } from 'react';
+import React, { Component } from 'react';
 import Message from './Message';
 import './ChatBoard.css';
 
@@ -9,6 +9,7 @@ class ChatBoard extends Component {
       scrollPosition: 0,
       height: 0
     };
+    this.refSelf = React.createRef();
   }
   getMessages() {
     const messageList = this.props.messageList.map((message) => {
@@ -18,18 +19,22 @@ class ChatBoard extends Component {
         downloadFile={this.props.downloadFile}
         message={message}
       />
-
     });
     return messageList;
   }
 
   scrollToBottom() {
-    return this.state.scrollPosition + '/' + window.pageYOffset;
+    var current = this.refSelf.current;
+    if (current.scrollTop + current.clientHeight >= current.scrollHeight - current.clientHeight) {
+      current.scrollTop = current.scrollHeight;
+    }
   }
 
   render() {
     return (
-      <div className="ChatBoard"
+      <div
+        className="ChatBoard"
+        ref={this.refSelf}
         onScroll={(e) => {
           this.setState({
             scrollPosition: e.target.scrollTop,

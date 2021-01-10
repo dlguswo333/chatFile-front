@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import './Message.css';
 
 const prettyFileSize = (size) => {
-  const units = [' B', ' KB', ' MB', ' GB'];
+  const units = ['B', 'KB', 'MB', 'GB'];
   let unit = 0;
-  while (size >= 1024) {
+  while (unit < units.length && size >= 1024) {
     size /= 1024;
     ++unit;
   }
-  return size.toFixed(2) + units[unit];
+  return size.toFixed(2) + ' ' + units[unit];
 }
 
 class Message extends Component {
@@ -16,7 +16,7 @@ class Message extends Component {
     const date = new Date(this.props.message.date);
     return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   }
-  processMessageValue() {
+  processMessage() {
     if (this.props.message.type === 'text') {
       return this.props.message.value;
     }
@@ -40,7 +40,7 @@ class Message extends Component {
           {this.props.message.userName}
         </div>
         <div className="ValueDiv">
-          {this.processMessageValue()}
+          {this.processMessage()}
         </div>
         <div className="DateDiv">
           {this.getDate()}
