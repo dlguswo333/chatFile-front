@@ -27,7 +27,7 @@ class Message extends Component {
           <div className="FileDiv">{prettyFileSize(this.props.message.fileSize)}</div>
           <button className="DownloadButton"
             onClick={() => {
-              this.props.downloadFile(this.props.message.key1)
+              this.props.downloadFile(this.props.message.key)
             }}>Download</button>
         </div>
       )
