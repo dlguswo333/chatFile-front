@@ -26,27 +26,30 @@ class App extends Component {
     this.sendFile = this.sendFile.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
     this.onInputTextChange = this.onInputTextChange.bind(this);
+    this.signIn = this.signIn.bind(this);
   }
 
   componentDidMount() {
-    socket.on(data.front_connect, () => {
-      this.setState({
-        myUserName: socket.id,
+    if (this.state.isLoggedIn) {
+      socket.on(data.front_connect, () => {
+        this.setState({
+          myUserName: socket.id,
+        });
+        console.log(socket.id);
       });
-      console.log(socket.id);
-    });
 
-    socket.on(data.full_message_list, (fullMessageList) => {
-      this.setState({
-        messageList: fullMessageList
+      socket.on(data.full_message_list, (fullMessageList) => {
+        this.setState({
+          messageList: fullMessageList
+        });
       });
-    });
 
-    socket.on(data.new_message, (message) => {
-      // reject duplicated message if there is any
-      if (this.state.messageList !== [] || message.key !== this.state.messageList[this.state.messageList.length - 1].key)
-        this.onReceive(message);
-    });
+      socket.on(data.new_message, (message) => {
+        // reject duplicated message if there is any
+        if (this.state.messageList !== [] || message.key !== this.state.messageList[this.state.messageList.length - 1].key)
+          this.onReceive(message);
+      });
+    }
   }
 
   onInputTextChange(value) {
@@ -98,8 +101,22 @@ class App extends Component {
     });
     this.refChatBoard.current.scrollToBottom();
   }
+
+  signIn(id, pw) {
+    var formData = new FormData();
+    formData.append('id', id);
+    formData.append('pw', pw);
+    axios.post(`http://localhost:${data.back_port}/signIn`, formData, {
+
+    }).then((res) => {
+      console.log('sign in');
+    }).catch((err) => {
+      console.error(err.message);
+    })
+  }
+
   render() {
-    if (!this.state.isLoggedIn) {
+    if (this.state.isLoggedIn) {
       return (
         <div className="App">
           <Navi />
@@ -122,7 +139,7 @@ class App extends Component {
     else {
       return (
         <div className="App">
-          <Login ></Login>
+          <Login signIn={this.signIn}></Login>
         </div>
       );
     }

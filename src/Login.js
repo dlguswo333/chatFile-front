@@ -6,12 +6,13 @@ class Login extends Component {
     super(props);
     this.state =
     {
-      value: ''
+      id: '',
+      pw: ''
     };
     this.log = this.log.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.refUserName = React.createRef();
-    this.refPassword = React.createRef();
+    this.refId = React.createRef();
+    this.Pw = React.createRef();
   }
   log(e) {
     e.preventDefault();
@@ -20,7 +21,7 @@ class Login extends Component {
   };
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state.value);
+    this.props.signIn(this.state.id, this.state.pw);
   }
   render() {
     return (
@@ -30,17 +31,22 @@ class Login extends Component {
         }}>
           <h2>Enter the Password</h2>
           <div>
-            < input type="text" placeholder="username" ref={this.refUserName}
+            < input type="text"
+              placeholder="username"
+              ref={this.refId}
               onChange={(e) => {
                 e.preventDefault();
-                console.log(e.target.value);
+                this.setState({ id: e.target.value });
               }}
             ></input>
           </div>
           <div>
-            < input type="password" placeholder="password" ref={this.refPassword}
+            < input type="password"
+              placeholder="password"
+              ref={this.Pw}
               onChange={(e) => {
-                this.log(e)
+                e.preventDefault();
+                this.setState({ pw: e.target.value });
               }}
               autoFocus={true} value={this.state.value}></input>
           </div>
