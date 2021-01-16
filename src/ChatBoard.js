@@ -14,7 +14,7 @@ class ChatBoard extends Component {
   getMessages() {
     const messageList = this.props.messageList.map((message) => {
       return <Message
-        className={(message.userName === this.props.myUserName ? "MyMessage" : "OtherMessage")}
+        className={(message.id === this.props.myId ? "MyMessage" : "OtherMessage")}
         key={message.key}
         downloadFile={this.props.downloadFile}
         message={message}

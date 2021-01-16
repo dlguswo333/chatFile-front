@@ -1,12 +1,12 @@
 .Navi{
   height: 5vh;
   display: flex;
-  justify-content: center;
   background-color: #484c54;
   color: white;
   overflow: hidden;
 }
 .NaviButton{
+  justify-self: center;
   border-radius: none;
   align-self: stretch;
   background-color: #313131;

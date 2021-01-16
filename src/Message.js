@@ -37,7 +37,7 @@ class Message extends Component {
     return (
       <div className={`Message ${this.props.className}`}>
         <div className="UserNameDiv">
-          {this.props.message.userName}
+          {this.props.message.id}
         </div>
         <div className="ValueDiv">
           {this.processMessage()}

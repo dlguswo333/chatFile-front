@@ -1,41 +1,53 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import cookieParser from 'cookie';
 import ChatBoard from './ChatBoard';
 import InputBoard from './InputBoard';
 import io from 'socket.io-client';
 import Navi from './Navi';
-import Login from './Login';
+import Login from './SignIn';
 import './App.css';
 import data from './data';
 
-const socket = io(`localhost:${data.back_port}`);
+const socket = io(`http://localhost:${data.back_port}`, {
+  withCredentials: true
+});
+axios.defaults.withCredentials = true;
 
 class App extends Component {
   constructor(props) {
     super(props);
+    const signedIn = cookieParser.parse(document.cookie).signedIn;
     this.state = {
-      myUserName: '',
+      id: '',
       messageList: [],
-      isLoggedIn: false,
+      signedIn: signedIn,
+      socketConnected: false,
+      socketConnectedInterval: null,
       inputText: '',
     };
     this.refChatBoard = React.createRef();
-
     this.sendText = this.sendText.bind(this);
     this.sendFile = this.sendFile.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
     this.onInputTextChange = this.onInputTextChange.bind(this);
     this.signIn = this.signIn.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   componentDidMount() {
-    if (this.state.isLoggedIn) {
+    // update socket connection status.
+    var socketConnectedInterval = setInterval(() => {
+      this.setState({ socketConnected: (socket.connected ? true : false) });
+    }, 1000);
+    this.setState({ socketConnectedInterval: socketConnectedInterval });
+
+    if (this.state.signedIn) {
+      console.log('signed in');
       socket.on(data.front_connect, () => {
         this.setState({
-          myUserName: socket.id,
+          myId: cookieParser.parse(document.cookie).myId,
         });
-        console.log(socket.id);
       });
 
       socket.on(data.full_message_list, (fullMessageList) => {
@@ -52,18 +64,30 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.state.socketConnectedInterval);
+  }
+
   onInputTextChange(value) {
     this.setState({ inputText: value });
   }
 
   sendText() {
+    if (!socket.connected) {
+      alert('Sorry, but you are not signed in.');
+      return;
+    }
     var message = {};
-    message['userName'] = this.state.myUserName;
+    message['id'] = null;
     message['value'] = this.state.inputText;
     socket.emit(data.new_message, message);
   };
 
   sendFile(files) {
+    if (!socket.connected) {
+      alert('Sorry, but you are not signed in.');
+      return;
+    }
     const file = files[0];
     if (file.size > data.max_file_size) {
       alert('File size is too big!');
@@ -71,7 +95,7 @@ class App extends Component {
     }
     var formData = new FormData();
     formData.append('file', file);
-    formData.append('userName', this.state.myUserName);
+    formData.append('id', this.state.id);
     axios.post(`http://localhost:${data.back_port}/files`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -82,7 +106,7 @@ class App extends Component {
     }).then((res) => {
       console.log('sended file ' + file);
     }).catch((err) => {
-      console.log(err);
+      console.error(err);
     })
   }
 
@@ -104,47 +128,52 @@ class App extends Component {
 
   signIn(id, pw) {
     var formData = new FormData();
-    formData.append('id', id);
-    formData.append('pw', pw);
     axios.post(`http://localhost:${data.back_port}/signIn`, formData, {
-
+      auth: {
+        username: id,
+        password: pw
+      }
     }).then((res) => {
-      console.log('sign in');
+      window.location.reload();
     }).catch((err) => {
-      console.error(err.message);
-    })
+      alert('Sign in failed. Check your id and password, Please.');
+    });
+  }
+
+  signOut() {
+    this.setState({ signedIn: false });
+    axios.post(`http://localhost:${data.back_port}/signOut`, {
+    }).then((res) => {
+      // nothing to do here.
+    }).catch((err) => {
+      alert(err);
+    });
+    // reloading the window will reset all states automatically, but I wanna make it sure.
+    this.setState({ messageList: [] });
+    window.location.reload();
   }
 
   render() {
-    if (this.state.isLoggedIn) {
-      return (
-        <div className="App">
-          <Navi />
-          <ChatBoard
-            messageList={this.state.messageList}
-            myUserName={this.state.myUserName}
-            getFunction={this.getFunction}
-            downloadFile={this.downloadFile}
-            ref={this.refChatBoard}
-          />
-          <InputBoard name="input"
-            input={this.state.inputText}
-            onInputTextChange={this.onInputTextChange}
-            sendText={this.sendText}
-            sendFile={this.sendFile}
-          />
-        </div>
-      );
-    }
-    else {
-      return (
-        <div className="App">
-          <Login signIn={this.signIn}></Login>
-        </div>
-      );
-    }
+    return (
+      <div className="App">
+        <Navi signOut={this.signOut} socketConnected={this.state.socketConnected} />
+        <ChatBoard
+          messageList={this.state.messageList}
+          myId={this.state.myId}
+          getFunction={this.getFunction}
+          downloadFile={this.downloadFile}
+          ref={this.refChatBoard}
+        />
+        <InputBoard name="input"
+          input={this.state.inputText}
+          onInputTextChange={this.onInputTextChange}
+          sendText={this.sendText}
+          sendFile={this.sendFile}
+        />
+        {!this.state.signedIn && <Login signIn={this.signIn}></Login>}
+      </div>
+    );
   }
 }
-
 
 export default App;
