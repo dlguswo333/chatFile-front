@@ -3,27 +3,25 @@
   min-width: 10%;
   padding: 10px;
   border-radius: 5px;
+  margin-bottom: 30px;
   border: 1px solid #484c54;
   white-space: pre-wrap;
   word-break: break-all;
   text-align: left;
   font-size: 12pt;
   animation-duration: 0.5s;
+  animation-fill-mode: forwards;
 }
 .MyMessage{
   animation-name: animate_mymessage;
   margin-left: auto;
   margin-right: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
   background-color: #E16428;
 }
 .OtherMessage{
   animation-name: animate_othermessage;
   margin-left: 20px;
   margin-right: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
   background-color: #018786;
 }
 @keyframes animate_mymessage{
@@ -64,7 +62,7 @@
   font-size: 10pt;
   margin-bottom: 5px;
   padding-bottom: 5px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid #FFFFFF77;
   text-align: left;
 }
 .DateDiv{

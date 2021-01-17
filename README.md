@@ -9,9 +9,14 @@ You can find the back-end side Github repository at [here](https://github.com/dl
 # How to Install chatFile
   1. Download the front-end and back-end repositories.
   2. Go to the directory of the back-end and start it by typing:
-  > npm start
+  ```bash
+  npm start
+  ```
   3. Likewise, go to the directory of the front-end and start it by typing:
-   > npm start
+  ```bash
+  npm start
+  ```
+  or build into production and serve them on any web service framwork you like. one example is ``serve`` in npm.
   4. The front-end will communicate automatically if any client accesses the web page.
 
 # chatFile (Front-end side)

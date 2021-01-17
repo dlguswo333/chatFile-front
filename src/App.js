@@ -6,8 +6,9 @@ import InputBoard from './InputBoard';
 import io from 'socket.io-client';
 import Navi from './Navi';
 import Login from './SignIn';
-import './App.css';
 import data from './data';
+import ToastBoard from './ToastBoard';
+import './App.css';
 
 const socket = io(`http://localhost:${data.back_port}`, {
   withCredentials: true
@@ -42,6 +43,7 @@ class App extends Component {
     }, 1000);
     this.setState({ socketConnectedInterval: socketConnectedInterval });
 
+    // if the client is signed in, connect via socket io.
     if (this.state.signedIn) {
       console.log('signed in');
       socket.on(data.front_connect, () => {
@@ -123,7 +125,7 @@ class App extends Component {
     this.setState({
       messageList: [...this.state.messageList, message]
     });
-    this.refChatBoard.current.scrollToBottom();
+    this.refChatBoard.current.scrollToBottom(false);
   }
 
   signIn(id, pw) {
@@ -171,6 +173,7 @@ class App extends Component {
           sendFile={this.sendFile}
         />
         {!this.state.signedIn && <Login signIn={this.signIn}></Login>}
+        <ToastBoard />
       </div>
     );
   }

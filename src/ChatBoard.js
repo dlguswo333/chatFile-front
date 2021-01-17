@@ -5,10 +5,6 @@ import './ChatBoard.css';
 class ChatBoard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      scrollPosition: 0,
-      height: 0
-    };
     this.refSelf = React.createRef();
   }
   getMessages() {
@@ -23,26 +19,21 @@ class ChatBoard extends Component {
     return messageList;
   }
 
-  scrollToBottom() {
+  scrollToBottom(must) {
     var current = this.refSelf.current;
-    if (current.scrollTop + current.clientHeight >= current.scrollHeight - current.clientHeight) {
+    if (must || (current.scrollTop + current.clientHeight >= current.scrollHeight - current.clientHeight)) {
       current.scrollTop = current.scrollHeight;
     }
   }
 
+  componentDidMount() {
+    this.scrollToBottom(true);
+  }
+
   render() {
     return (
-      <div
-        className="ChatBoard"
-        ref={this.refSelf}
-        onScroll={(e) => {
-          this.setState({
-            scrollPosition: e.target.scrollTop,
-            height: 0
-          });
-        }}>
+      <div className="ChatBoard" ref={this.refSelf}>
         {this.getMessages()}
-        {/* {this.scrollToBottom()} */}
       </div>
     )
   }

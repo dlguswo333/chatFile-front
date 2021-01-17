@@ -23,3 +23,7 @@
 .NaviButton:hover{
   background-color: crimson;
 }
+.Connection{
+  text-align: center;
+  line-height: 100%;
+}
