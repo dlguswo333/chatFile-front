@@ -28,6 +28,7 @@ class App extends Component {
       inputText: '',
     };
     this.refChatBoard = React.createRef();
+    this.refToastBoard = React.createRef();
     this.sendText = this.sendText.bind(this);
     this.sendFile = this.sendFile.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
@@ -86,6 +87,7 @@ class App extends Component {
   };
 
   sendFile(files) {
+    // If not connected to socket, block upload.
     if (!socket.connected) {
       alert('Sorry, but you are not signed in.');
       return;
@@ -98,16 +100,20 @@ class App extends Component {
     var formData = new FormData();
     formData.append('file', file);
     formData.append('id', this.state.id);
+    const toastKey = this.refToastBoard.current.pushToast(
+      { type: 'progress', content: `Uploading File ${file.name}` }
+    );
     axios.post(`http://localhost:${data.back_port}/files`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
       onUploadProgress: (e) => {
-        console.log(Math.round(100 * e.loaded / e.total));
+        this.refToastBoard.current.editToast(toastKey, { type: 'progress', content: `Uploading File ${file.name} ${Math.round(100 * e.loaded / e.total)}%: ` });
       }
     }).then((res) => {
-      console.log('sended file ' + file);
+      this.refToastBoard.current.editToast(toastKey, { type: 'noti', content: `The File has been uploaded successfully!` });
     }).catch((err) => {
+      this.refToastBoard.current.editToast(toastKey, { type: 'noti', content: `Uploading File ${file.name} failed...` });
       console.error(err);
     })
   }
@@ -125,7 +131,9 @@ class App extends Component {
     this.setState({
       messageList: [...this.state.messageList, message]
     });
-    this.refChatBoard.current.scrollToBottom(false);
+    // Sometimes refChatBoard.current returns unknown. Solve it later.
+    if (this.refChatBoard.current)
+      this.refChatBoard.current.scrollToBottom(false);
   }
 
   signIn(id, pw) {
@@ -173,7 +181,7 @@ class App extends Component {
           sendFile={this.sendFile}
         />
         {!this.state.signedIn && <Login signIn={this.signIn}></Login>}
-        <ToastBoard />
+        <ToastBoard ref={this.refToastBoard} />
       </div>
     );
   }

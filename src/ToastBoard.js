@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './ToastBoard.css';
 
-var i = 0;
+var nextToastKey = 0;
 
 class Toast extends Component {
   constructor(props) {
@@ -17,7 +17,10 @@ class Toast extends Component {
     const len = this.state.toastList.length;
     // cut if too long.
     if (len > 5) {
-      this.setState({ toastList: this.state.toastList.slice(len - 5, len) });
+      let toastList = this.state.toastList;
+      toastList = toastList.filter((toast) => { return toast.type !== null; });
+      toastList = toastList.slice(0, 5);
+      this.setState({ toastList: toastList });
     }
     const toastList = this.state.toastList.map((toast) => {
       if (toast.type === 'noti') {
@@ -27,7 +30,7 @@ class Toast extends Component {
       }
       else if (toast.type === 'progress') {
         return <div className="Toast" key={toast.key}>
-          {toast.content + 100 + '%'}
+          {toast.content}
         </div>
       }
       return null;
@@ -35,8 +38,23 @@ class Toast extends Component {
     return toastList;
   }
 
+  editToast(toastKey, toast) {
+    let toastList = [...this.state.toastList];
+    let toastInd = toastList.findIndex((toast) => { return toast.key === toastKey; });
+    if (toastInd < 0)
+      return;
+    toast.key = toastKey;
+    toastList[toastInd] = toast;
+    if (toast.type === 'noti') {
+      setTimeout(() => {
+        toast.type = null;
+      }, 3000);
+    }
+    this.setState({ toastList: toastList });
+  }
+
   pushToast(toast) {
-    if (toast.key === undefined || toast.type === undefined || toast.content === undefined) {
+    if (toast.type === undefined || toast.content === undefined) {
       // reject bad toast.
       return;
     }
@@ -48,6 +66,8 @@ class Toast extends Component {
     this.setState({
       toastList: [...this.state.toastList, toast]
     });
+    toast.key = nextToastKey++;
+    return toast.key;
   }
 
   render() {
@@ -55,7 +75,7 @@ class Toast extends Component {
       <div className="ToastBoard">
         <button onClick={() => {
           this.pushToast(
-            { key: i++, type: (i % 2 === 0 ? 'noti' : 'progress'), content: (i % 2 === 0 ? 'hello thereejfawjflkajewfjafj' : 'in progress...') }
+            { type: (nextToastKey % 2 === 0 ? 'noti' : 'progress'), content: (nextToastKey % 2 === 0 ? 'hello thereejfawjflkajewfjafj' : 'in progress...') }
           );
         }}>Click Me</button>
         {this.getToasts()}

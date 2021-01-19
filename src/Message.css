@@ -41,7 +41,7 @@
   }
 }
 .DownloadButton{
-  width: 90%;
+  width: fit-content;
   border-radius: none;
   border: none;
   display: flex;
@@ -49,8 +49,7 @@
   font-weight: bold;
   background-color: #313131;
   color: white;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  padding: 10px 20px;
   margin-left: auto;
   margin-right: auto;
   transition: 0.3s;
