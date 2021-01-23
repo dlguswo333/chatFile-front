@@ -5,7 +5,7 @@ import ChatBoard from './ChatBoard';
 import InputBoard from './InputBoard';
 import io from 'socket.io-client';
 import Navi from './Navi';
-import Login from './SignIn';
+import Auth from './Auth';
 import data from './data';
 import ToastBoard from './ToastBoard';
 import './App.css';
@@ -150,6 +150,21 @@ class App extends Component {
     });
   }
 
+  signUp(id, pw) {
+    var formData = new FormData();
+    axios.post(`http://localhost:${data.back_port}/signUp`, formData, {
+      auth: {
+        username: id,
+        password: pw
+      }
+    }).then((res) => {
+      alert('Your account has been created successfully.')
+    }).catch((err) => {
+      alert('Sign up failed. Please try again later.');
+    });
+  }
+
+
   signOut() {
     this.setState({ signedIn: false });
     axios.post(`http://localhost:${data.back_port}/signOut`, {
@@ -180,7 +195,7 @@ class App extends Component {
           sendText={this.sendText}
           sendFile={this.sendFile}
         />
-        {!this.state.signedIn && <Login signIn={this.signIn}></Login>}
+        {!this.state.signedIn && <Auth signIn={this.signIn} signUp={this.signUp} />}
         <ToastBoard ref={this.refToastBoard} />
       </div>
     );

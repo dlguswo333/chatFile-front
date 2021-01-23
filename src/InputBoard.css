@@ -1,7 +1,6 @@
 .InputBoard{
   display: flex;
-  min-height: 10vh;
-  max-height: 10vh;
+  height: 10%;
   background-color: #484c54;
   text-align: center;
   justify-content: center;

@@ -9,6 +9,8 @@ data['back_disconnect'] = 'disconnect';
 data['front_disconnect'] = 'disconnection';
 data['max_file_size'] = 100 * 1024 * 1024;
 data['not_these_letters'] = ': \t';
+data['min_id_len'] = 5;
+data['min_pw_len'] = 6;
 
 // exports.data = data;
 export default data;
