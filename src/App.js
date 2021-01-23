@@ -160,7 +160,7 @@ class App extends Component {
     }).then((res) => {
       alert('Your account has been created successfully.')
     }).catch((err) => {
-      alert('Sign up failed. Please try again later.');
+      alert(err.response.data);
     });
   }
 
