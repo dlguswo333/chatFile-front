@@ -1,5 +1,6 @@
 .Window{
   position: absolute;
+  z-index: 1001;
   width: 50vh;
   left: 50%;
   top: 50%;

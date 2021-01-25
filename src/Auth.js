@@ -29,7 +29,6 @@ class Auth extends Component {
         alert('Passwords do not match!');
         return;
       }
-      this.cleanInputs();
       if (this.state.id.length < data.min_id_len) {
         alert(`ID should be at least ${data.min_pw_len} long!`);
         return;
@@ -51,13 +50,14 @@ class Auth extends Component {
         }
       }
       this.props.signUp(this.state.id, this.state.pw);
+      this.cleanInputs();
     }
   }
 
   cleanInputs() {
     this.refId.current.value = '';
     this.refPw.current.value = '';
-    if (this.refRePw.current)
+    if (!this.state.toggleSignIn)
       this.refRePw.current.value = '';
   }
 
@@ -103,7 +103,9 @@ class Auth extends Component {
               ></input>
             </div>
             <div>
-              <button className="SubmitButton" onClick={(e) => { this.onSubmit(e) }}>Submit</button>
+              <button className="SubmitButton" onClick={(e) => {
+                this.onSubmit(e);
+              }}>Submit</button>
             </div>
           </form>
           <div className="ButtonDiv">
@@ -156,13 +158,15 @@ class Auth extends Component {
             </div>
             <div>
               <button className="SubmitButton" onClick={(e) => {
-                this.cleanInputs();
-                this.onSubmit(e)
+                this.onSubmit(e);
               }}>Submit</button>
             </div>
           </form>
           <div className="ButtonDiv">
-            < button className="ToggleButton" onClick={() => { this.setState({ toggleSignIn: !this.state.toggleSignIn }); }}>
+            < button className="ToggleButton" onClick={() => {
+              this.cleanInputs();
+              this.setState({ toggleSignIn: !this.state.toggleSignIn });
+            }}>
               Sign In
             </button>
           </div>

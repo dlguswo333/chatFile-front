@@ -160,7 +160,10 @@ class App extends Component {
     }).then((res) => {
       alert('Your account has been created successfully.')
     }).catch((err) => {
-      alert(err.response.data);
+      if (err.response !== undefined)
+        alert(err.response.data);
+      else
+        alert(`Server is not responding. Please try again later.`);
     });
   }
 
@@ -196,6 +199,7 @@ class App extends Component {
           sendFile={this.sendFile}
         />
         {!this.state.signedIn && <Auth signIn={this.signIn} signUp={this.signUp} />}
+        {!this.state.signedIn && <div className="BackgroundBlur"></div>}
         <ToastBoard ref={this.refToastBoard} />
       </div>
     );
