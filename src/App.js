@@ -20,7 +20,7 @@ class App extends Component {
     super(props);
     const signedIn = cookieParser.parse(document.cookie).signedIn;
     this.state = {
-      id: '',
+      myId: '',
       messageList: [],
       signedIn: signedIn,
       socketConnected: false,
@@ -46,11 +46,9 @@ class App extends Component {
 
     // if the client is signed in, connect via socket io.
     if (this.state.signedIn) {
-      console.log('signed in');
       socket.on(data.front_connect, () => {
-        this.setState({
-          myId: cookieParser.parse(document.cookie).myId,
-        });
+        // on socket io connection, get my id.
+        this.getMyId();
       });
 
       socket.on(data.full_message_list, (fullMessageList) => {
@@ -99,7 +97,7 @@ class App extends Component {
     }
     var formData = new FormData();
     formData.append('file', file);
-    formData.append('id', this.state.id);
+    formData.append('id', this.state.myId);
     const toastKey = this.refToastBoard.current.pushToast(
       { type: 'progress', content: `Uploading File ${file.name}` }
     );
@@ -179,6 +177,21 @@ class App extends Component {
     // reloading the window will reset all states automatically, but I wanna make it sure.
     this.setState({ messageList: [] });
     window.location.reload();
+  }
+
+  getMyId() {
+    if (!this.state.signedIn) {
+      // If not signed in, no need to get my id.
+      return;
+    }
+    axios.post(`http://localhost:${data.back_port}/getMyId`, {
+
+    }).then((res) => {
+      const id = res.data;
+      this.setState({ myId: id });
+    }).catch((err) => {
+      this.setState({ id: 'undefined' });
+    })
   }
 
   render() {
