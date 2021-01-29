@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './ToastBoard.css';
 
+// Each toast must have unique key value.
+// So, pushToast function will increment the value everytime it is called.
 var nextToastKey = 0;
+const maxToastListLen = 5;
 
 class Toast extends Component {
   constructor(props) {
@@ -14,14 +17,6 @@ class Toast extends Component {
   }
 
   getToasts() {
-    const len = this.state.toastList.length;
-    // cut if too long.
-    if (len > 5) {
-      let toastList = this.state.toastList;
-      toastList = toastList.filter((toast) => { return toast.type !== null; });
-      toastList = toastList.slice(0, 5);
-      this.setState({ toastList: toastList });
-    }
     const toastList = this.state.toastList.map((toast) => {
       if (toast.type === 'noti') {
         return <div className="Toast" key={toast.key}>
@@ -53,6 +48,21 @@ class Toast extends Component {
     this.setState({ toastList: toastList });
   }
 
+  sliceToastList() {
+    let len = this.state.toastList.length;
+    if (len >= maxToastListLen) {
+      // cut if too long.
+      let toastList = this.state.toastList;
+      toastList = toastList.filter((toast) => { return toast.type !== null; });
+      len = toastList.length;
+      if (len >= maxToastListLen) {
+        // Still long? cut off old toasts.
+        toastList = toastList.slice(len - maxToastListLen, len);
+      }
+      this.setState({ toastList: toastList });
+    }
+  }
+
   pushToast(toast) {
     if (toast.type === undefined || toast.content === undefined) {
       // reject bad toast.
@@ -67,17 +77,18 @@ class Toast extends Component {
       toastList: [...this.state.toastList, toast]
     });
     toast.key = nextToastKey++;
+    this.sliceToastList();
     return toast.key;
   }
 
   render() {
     return (
       <div className="ToastBoard">
-        <button onClick={() => {
+        {/* <button onClick={() => {
           this.pushToast(
             { type: (nextToastKey % 2 === 0 ? 'noti' : 'progress'), content: (nextToastKey % 2 === 0 ? 'hello thereejfawjflkajewfjafj' : 'in progress...') }
           );
-        }}>Click Me</button>
+        }}>Click Me</button> */}
         {this.getToasts()}
       </div>
     );

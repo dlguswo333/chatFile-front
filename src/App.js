@@ -29,6 +29,7 @@ class App extends Component {
     };
     this.refChatBoard = React.createRef();
     this.refToastBoard = React.createRef();
+
     this.sendText = this.sendText.bind(this);
     this.sendFile = this.sendFile.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
@@ -44,7 +45,7 @@ class App extends Component {
     }, 1000);
     this.setState({ socketConnectedInterval: socketConnectedInterval });
 
-    // if the client is signed in, connect via socket io.
+    // if the client is signed in, connect to socket io.
     if (this.state.signedIn) {
       socket.on(data.front_connect, () => {
         // on socket io connection, get my id.
@@ -58,7 +59,7 @@ class App extends Component {
       });
 
       socket.on(data.new_message, (message) => {
-        // reject duplicated message if there is any
+        // reject duplicated message if there is any.
         if (this.state.messageList !== [] || message.key !== this.state.messageList[this.state.messageList.length - 1].key)
           this.onReceive(message);
       });
@@ -75,7 +76,9 @@ class App extends Component {
 
   sendText() {
     if (!socket.connected) {
-      alert('Sorry, but you are not signed in.');
+      this.refToastBoard.current.pushToast(
+        { type: 'noti', content: `Sorry, but you are not connected to the server.` }
+      );
       return;
     }
     var message = {};
@@ -87,7 +90,9 @@ class App extends Component {
   sendFile(files) {
     // If not connected to socket, block upload.
     if (!socket.connected) {
-      alert('Sorry, but you are not signed in.');
+      this.refToastBoard.current.pushToast(
+        { type: 'noti', content: `Sorry, but you are not connected to the server.` }
+      );
       return;
     }
     const file = files[0];
@@ -197,7 +202,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Navi signOut={this.signOut} socketConnected={this.state.socketConnected} />
+        <Navi signedIn={this.state.signedIn} signOut={this.signOut} socketConnected={this.state.socketConnected} />
         <ChatBoard
           messageList={this.state.messageList}
           myId={this.state.myId}
@@ -212,7 +217,7 @@ class App extends Component {
           sendFile={this.sendFile}
         />
         {!this.state.signedIn && <Auth signIn={this.signIn} signUp={this.signUp} />}
-        {!this.state.signedIn && <div className="BackgroundBlur"></div>}
+        {/* {!this.state.signedIn && <div className="BackgroundBlur"></div>} */}
         <ToastBoard ref={this.refToastBoard} />
       </div>
     );

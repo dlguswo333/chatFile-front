@@ -6,24 +6,37 @@
   overflow: hidden;
 }
 .NaviButton{
-  justify-self: center;
   border-radius: none;
-  align-self: stretch;
+  white-space: nowrap;
+  height: 100%;
+  margin: 0 10px 0 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   background-color: #313131;
   border: 1px white;
   color: white;
-  padding-top: 0.5%;
-  padding-bottom: 0.5%;
-  padding-left: 1%;
-  padding-right: 1%;
-  margin-left: 0.1%;
-  margin-right: 0.1%;
   transition: 0.3s;
+}
+.RightAlign{
+  height: 100%;
+  margin-left: auto;
 }
 .NaviButton:hover{
   background-color: crimson;
 }
 .Connection{
-  text-align: center;
+  align-self: center;
+  margin: 0 10px 0 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
   line-height: 100%;
+}
+.Connected{
+  background-color: green;
+}
+.Disconnected{
+  background-color: red;
 }

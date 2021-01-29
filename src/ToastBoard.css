@@ -1,5 +1,6 @@
 .ToastBoard{
   position: absolute;
+  z-index: 1100;
   top: 10vh;
   left: 50%;
   justify-content: center;
@@ -9,7 +10,8 @@
 .Toast{
   margin: auto;
   max-width: min-content;
-  background-color: #FFFFFF11;
+  background-color: #00000088;
+  color: white;
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 10px;
