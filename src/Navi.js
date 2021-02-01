@@ -1,12 +1,31 @@
 import { React, Component } from 'react';
 import './Navi.css';
+import ClientList from './ClientList';
 
 class Navi extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userListFlag: false
+    };
+  }
+
+  toggleClientList() {
+    const toggle = this.state.userListFlag;
+    this.setState({ userListFlag: !toggle });
+    console.log(this.props.clientList);
+  }
+
   render() {
     return (
       <nav className="Navi">
-        <div className={`Connection ${this.props.socketConnected ? 'Connected' : 'Disconnected'}`} />
-        <button className="NaviButton" onClick={() => { console.log("User List"); }}>User List</button>
+        <div className="LeftAlign">
+          <div className={`Connection ${this.props.socketConnected ? 'Connected' : 'Disconnected'}`} />
+          <button className="NaviButton" onClick={() => { this.toggleClientList(); }}>
+            Client List
+          </button>
+          {this.state.userListFlag && <ClientList clientList={this.props.clientList} />}
+        </div>
         <div className='RightAlign' >
           {this.props.signedIn &&
             <button className="NaviButton" onClick={() => {

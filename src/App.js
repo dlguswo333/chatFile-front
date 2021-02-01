@@ -22,6 +22,7 @@ class App extends Component {
     this.state = {
       myId: '',
       messageList: [],
+      clientList: new Map(),
       signedIn: signedIn,
       socketConnected: false,
       socketConnectedInterval: null,
@@ -52,10 +53,28 @@ class App extends Component {
         this.getMyId();
       });
 
+      socket.on(data.full_client_list, (fullClientList) => {
+        // receive full client list.
+        let clientList = new Map(fullClientList);
+        this.setState({ clientList: clientList });
+      });
+
+      socket.on(data.client_connect, ({ id, value }) => {
+        // update client list.
+        let clientList = this.state.clientList;
+        clientList.set(id, value);
+        this.setState({ clientList: clientList });
+      });
+
+      socket.on(data.client_disconnect, ({ id, value }) => {
+        // update client list.
+        let clientList = this.state.clientList;
+        clientList.set(id, value);
+      });
+
       socket.on(data.full_message_list, (fullMessageList) => {
-        this.setState({
-          messageList: fullMessageList
-        });
+        // receive all messages.
+        this.setState({ messageList: fullMessageList });
       });
 
       socket.on(data.new_message, (message) => {
@@ -63,6 +82,11 @@ class App extends Component {
         if (this.state.messageList !== [] || message.key !== this.state.messageList[this.state.messageList.length - 1].key)
           this.onReceive(message);
       });
+
+      socket.on(data.client_connect, (id) => {
+        let clientList = this.state.clientList;
+        clientList.set()
+      })
     }
   }
 
@@ -189,9 +213,7 @@ class App extends Component {
       // If not signed in, no need to get my id.
       return;
     }
-    axios.post(`http://localhost:${data.back_port}/getMyId`, {
-
-    }).then((res) => {
+    axios.post(`http://localhost:${data.back_port}/getMyId`, {}).then((res) => {
       const id = res.data;
       this.setState({ myId: id });
     }).catch((err) => {
@@ -202,7 +224,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Navi signedIn={this.state.signedIn} signOut={this.signOut} socketConnected={this.state.socketConnected} />
+        <Navi
+          signedIn={this.state.signedIn}
+          signOut={this.signOut}
+          socketConnected={this.state.socketConnected}
+          clientList={this.state.clientList}
+        />
         <ChatBoard
           messageList={this.state.messageList}
           myId={this.state.myId}

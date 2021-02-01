@@ -1,7 +1,7 @@
 .Window{
   position: absolute;
   z-index: 1001;
-  width: 50vh;
+  min-width: 500px;
   left: 50%;
   top: 50%;
   border-radius: 5pt;
