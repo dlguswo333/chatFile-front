@@ -3,9 +3,9 @@
   display: flex;
   background-color: #484c54;
   color: white;
-  /* overflow: hidden; */
 }
 .NaviButton{
+  position: relative;
   border-radius: none;
   white-space: nowrap;
   height: 100%;
@@ -20,7 +20,6 @@
   transition: 0.3s;
 }
 .LeftAlign{
-  position: relative;
   display: flex;
   height: 100%;
   margin-right: auto;

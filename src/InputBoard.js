@@ -12,11 +12,12 @@ class InputBoard extends Component {
   }
 
   sendText = () => {
-    this.props.sendText();
-    this.refTextArea.current.value = '';
-    this.props.onInputTextChange('');
+    if (this.refTextArea.current.value) {
+      // Send only meaningful message.
+      this.props.sendText();
+      this.refTextArea.current.value = '';
+    }
   }
-
 
   componentDidMount() {
     this.refTextArea.current.addEventListener('keydown', (e) => {

@@ -23,8 +23,8 @@ class Navi extends Component {
           <div className={`Connection ${this.props.socketConnected ? 'Connected' : 'Disconnected'}`} />
           <button className="NaviButton" onClick={() => { this.toggleClientList(); }}>
             Client List
+            {this.state.userListFlag && <ClientList clientList={this.props.clientList} />}
           </button>
-          {this.state.userListFlag && <ClientList clientList={this.props.clientList} />}
         </div>
         <div className='RightAlign' >
           {this.props.signedIn &&

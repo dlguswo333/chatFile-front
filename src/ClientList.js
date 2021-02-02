@@ -7,7 +7,7 @@ class ClientList extends Component {
     this.props.clientList.forEach((value, id) => {
       if (id !== undefined)
         clientList.push(
-          <div className="Client">
+          <div className="Client" key={id}>
             <div className={`Connection ${value ? 'Connected' : 'Disconnected'}`} />
             {id}
           </div>

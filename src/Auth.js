@@ -37,6 +37,14 @@ class Auth extends Component {
         alert(`Password should be at least ${data.min_pw_len} long!`);
         return;
       }
+      if (this.state.id.length > data.max_id_len) {
+        alert(`ID should be at most ${data.max_pw_len} long!`);
+        return;
+      }
+      if (this.state.pw.length > data.max_pw_len) {
+        alert(`Password should be at least ${data.max_pw_len} long!`);
+        return;
+      }
       for (let i = 0; i < data.not_these_letters.length; ++i) {
         if (this.state.id.includes(data.not_these_letters[i])) {
           alert(`ID and Password should not contain letter: ${data.not_these_letters[i]}`);
@@ -82,7 +90,7 @@ class Auth extends Component {
           }}>
             <div>
               <input type="text"
-                maxLength={10}
+                maxLength={data.max_id_len}
                 placeholder="ID"
                 ref={this.refId}
                 onChange={(e) => {
@@ -93,7 +101,7 @@ class Auth extends Component {
             </div>
             <div>
               <input type="password"
-                maxLength={10}
+                maxLength={data.max_pw_len}
                 placeholder="Password"
                 ref={this.refPw}
                 onChange={(e) => {
@@ -127,7 +135,7 @@ class Auth extends Component {
           }}>
             <div>
               <input type="text"
-                maxLength={10}
+                maxLength={data.max_id_len}
                 placeholder="ID"
                 ref={this.refId}
                 onChange={(e) => {
@@ -138,7 +146,7 @@ class Auth extends Component {
             </div>
             <div>
               <input type="password"
-                maxLength={10}
+                maxLength={data.max_pw_len}
                 placeholder="Password"
                 ref={this.refPw}
                 onChange={(e) => {
@@ -149,6 +157,7 @@ class Auth extends Component {
             </div>
             <div>
               <input type="password"
+                maxLength={data.max_pw_len}
                 placeholder="Retype Password"
                 ref={this.refRePw}
                 onChange={(e) => {

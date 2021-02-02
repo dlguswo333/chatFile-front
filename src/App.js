@@ -244,7 +244,7 @@ class App extends Component {
           sendFile={this.sendFile}
         />
         {!this.state.signedIn && <Auth signIn={this.signIn} signUp={this.signUp} />}
-        {/* {!this.state.signedIn && <div className="BackgroundBlur"></div>} */}
+        {!this.state.signedIn && <div className="BackgroundBlur"></div>}
         <ToastBoard ref={this.refToastBoard} />
       </div>
     );
