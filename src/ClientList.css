@@ -13,9 +13,12 @@
   display: flex;
   padding: 10px;
 }
+.ClientId{
+  margin: 0 5px 0 5px;
+}
 .Connection{
   align-self: center;
-  margin: 0 10px 0 10px;
+  margin: 0 5px 0 5px;
   width: 10px;
   height: 10px;
   border-radius: 50%;

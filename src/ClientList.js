@@ -9,7 +9,9 @@ class ClientList extends Component {
         clientList.push(
           <div className="Client" key={id}>
             <div className={`Connection ${value ? 'Connected' : 'Disconnected'}`} />
-            {id}
+            <div className="ClientId">
+              {id}
+            </div>
           </div>
         );
     });

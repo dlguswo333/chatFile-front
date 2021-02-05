@@ -1,4 +1,4 @@
-import { React, Component } from 'react';
+import React, { Component } from 'react';
 import './Navi.css';
 import ClientList from './ClientList';
 
@@ -8,12 +8,28 @@ class Navi extends Component {
     this.state = {
       userListFlag: false
     };
+    this.refClientListButton = React.createRef();
+    this.toggleClientList = this.toggleClientList.bind(this);
+    this.onClickOutside = this.onClickOutside.bind(this);
   }
 
   toggleClientList() {
     const toggle = this.state.userListFlag;
     this.setState({ userListFlag: !toggle });
-    console.log(this.props.clientList);
+  }
+
+  onClickOutside(e) {
+    if (this.refClientListButton && !this.refClientListButton.current.contains(e.target)) {
+      this.toggleClientList();
+    }
+  }
+  // Well, it seems not clean enough to add event listener all over the document,
+  // but what choice do I have...
+  componentDidMount() {
+    document.addEventListener('mousedown', this.onClickOutside, true);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.onClickOutside, true);
   }
 
   render() {
@@ -21,7 +37,7 @@ class Navi extends Component {
       <nav className="Navi">
         <div className="LeftAlign">
           <div className={`Connection ${this.props.socketConnected ? 'Connected' : 'Disconnected'}`} />
-          <button className="NaviButton" onClick={() => { this.toggleClientList(); }}>
+          <button className="NaviButton" ref={this.refClientListButton} onClick={() => { this.toggleClientList(); }}>
             Client List
             {this.state.userListFlag && <ClientList clientList={this.props.clientList} />}
           </button>
