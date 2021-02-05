@@ -73,10 +73,10 @@ class Toast extends Component {
         toast.type = null;
       }, 3000);
     }
+    toast.key = nextToastKey++;
     this.setState({
       toastList: [...this.state.toastList, toast]
     });
-    toast.key = nextToastKey++;
     this.sliceToastList();
     return toast.key;
   }
@@ -84,11 +84,6 @@ class Toast extends Component {
   render() {
     return (
       <div className="ToastBoard">
-        {/* <button onClick={() => {
-          this.pushToast(
-            { type: (nextToastKey % 2 === 0 ? 'noti' : 'progress'), content: (nextToastKey % 2 === 0 ? 'hello thereejfawjflkajewfjafj' : 'in progress...') }
-          );
-        }}>Click Me</button> */}
         {this.getToasts()}
       </div>
     );
