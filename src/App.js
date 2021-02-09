@@ -30,12 +30,14 @@ class App extends Component {
     };
     this.refChatBoard = React.createRef();
     this.refToastBoard = React.createRef();
+    this.refAuth = React.createRef();
 
     this.sendText = this.sendText.bind(this);
     this.sendFile = this.sendFile.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
     this.onInputTextChange = this.onInputTextChange.bind(this);
     this.signIn = this.signIn.bind(this);
+    this.signUp = this.signUp.bind(this);
     this.signOut = this.signOut.bind(this);
   }
 
@@ -48,45 +50,47 @@ class App extends Component {
 
     // if the client is signed in, connect to socket io.
     if (this.state.signedIn) {
+      // On socket io connection, get my id.
       socket.on(data.front_connect, () => {
-        // on socket io connection, get my id.
         this.getMyId();
       });
 
+      // Receive full client list.
       socket.on(data.full_client_list, (fullClientList) => {
-        // receive full client list.
         let clientList = new Map(fullClientList);
         this.setState({ clientList: clientList });
       });
 
+      // Update client list.
       socket.on(data.client_connect, ({ id, value }) => {
-        // update client list.
         let clientList = this.state.clientList;
         clientList.set(id, value);
         this.setState({ clientList: clientList });
       });
 
+      // Update client list.
       socket.on(data.client_disconnect, ({ id, value }) => {
-        // update client list.
         let clientList = this.state.clientList;
         clientList.set(id, value);
+        this.setState({ clientList: clientList });
+      });
+      socket.on(data.client_connect, ({ id, value }) => {
+        let clientList = this.state.clientList;
+        clientList.set(id, value);
+        this.setState({ clientList: clientList });
       });
 
+      // Receive all messages.
       socket.on(data.full_message_list, (fullMessageList) => {
-        // receive all messages.
         this.setState({ messageList: fullMessageList });
       });
 
+      // reject duplicated message if there is any.
       socket.on(data.new_message, (message) => {
-        // reject duplicated message if there is any.
         if (this.state.messageList !== [] || message.key !== this.state.messageList[this.state.messageList.length - 1].key)
           this.onReceive(message);
       });
 
-      socket.on(data.client_connect, (id) => {
-        let clientList = this.state.clientList;
-        clientList.set()
-      })
     }
   }
 
@@ -185,7 +189,8 @@ class App extends Component {
         password: pw
       }
     }).then((res) => {
-      alert('Your account has been created successfully.')
+      alert('Your account has been created successfully.');
+      this.refAuth.current.toggle();
     }).catch((err) => {
       if (err.response !== undefined)
         alert(err.response.data);
@@ -217,8 +222,8 @@ class App extends Component {
       const id = res.data;
       this.setState({ myId: id });
     }).catch((err) => {
-      this.setState({ id: 'undefined' });
-    })
+      this.setState({ myId: 'undefined' });
+    });
   }
 
   render() {
@@ -243,7 +248,7 @@ class App extends Component {
           sendText={this.sendText}
           sendFile={this.sendFile}
         />
-        {!this.state.signedIn && <Auth signIn={this.signIn} signUp={this.signUp} />}
+        {!this.state.signedIn && <Auth ref={this.refAuth} signIn={this.signIn} signUp={this.signUp} />}
         {!this.state.signedIn && <div className="BackgroundBlur"></div>}
         <ToastBoard ref={this.refToastBoard} />
       </div>

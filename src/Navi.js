@@ -19,7 +19,7 @@ class Navi extends Component {
   }
 
   onClickOutside(e) {
-    if (this.refClientListButton && !this.refClientListButton.current.contains(e.target)) {
+    if (this.refClientListButton && this.state.userListFlag && !this.refClientListButton.current.contains(e.target)) {
       this.toggleClientList();
     }
   }

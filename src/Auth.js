@@ -80,6 +80,10 @@ class Auth extends Component {
     }
   }
 
+  toggle() {
+    this.setState({ toggleSignIn: !this.state.toggleSignIn });
+  }
+
   render() {
     if (this.state.toggleSignIn)
       return (
@@ -119,7 +123,7 @@ class Auth extends Component {
           <div className="ButtonDiv">
             < button className="ToggleButton" onClick={() => {
               this.cleanInputs();
-              this.setState({ toggleSignIn: !this.state.toggleSignIn });
+              this.toggle();
             }}>
               Sign Up
             </button>
