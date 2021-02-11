@@ -28,8 +28,12 @@
   padding-right: 1%;
   margin-left: 0.1%;
   margin-right: 0.1%;
-  transition: 0.3s;
 }
 .SendButton:hover{
+  transition: 0.3s;
   background-color: crimson;
+}
+.SendButton:active{
+  transition: 0.1s;
+  background-color: darkorange;
 }

@@ -139,10 +139,10 @@ class App extends Component {
         'Content-Type': 'multipart/form-data'
       },
       onUploadProgress: (e) => {
-        this.refToastBoard.current.editToast(toastKey, { type: 'progress', content: `Uploading File ${file.name} ${Math.round(100 * e.loaded / e.total)}%: ` });
+        this.refToastBoard.current.editToast(toastKey, { type: 'progress', content: `Uploading File ${file.name} ${Math.round(100 * e.loaded / e.total)}%` });
       }
     }).then((res) => {
-      this.refToastBoard.current.editToast(toastKey, { type: 'noti', content: `The File has been uploaded successfully!` });
+      this.refToastBoard.current.editToast(toastKey, { type: 'noti', content: `${file.name} has been uploaded successfully!` });
     }).catch((err) => {
       this.refToastBoard.current.editToast(toastKey, { type: 'noti', content: `Uploading File ${file.name} failed...` });
       console.error(err);

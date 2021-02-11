@@ -17,7 +17,6 @@
   background-color: #313131;
   border: 1px white;
   color: white;
-  transition: 0.3s;
 }
 .LeftAlign{
   display: flex;
@@ -29,7 +28,12 @@
   margin-left: auto;
 }
 .NaviButton:hover{
+  transition: 0.3s;
   background-color: crimson;
+}
+.NaviButton:active{
+  transition: 0.1s;
+  background-color: darkorange;
 }
 .Connection{
   align-self: center;
