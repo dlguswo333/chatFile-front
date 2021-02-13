@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import './Navi.css';
+import Settings from './Settings';
 import ClientList from './ClientList';
+import './Navi.css';
 
 class Navi extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userListFlag: false
+      userListFlag: false,
+      settingsFlag: false
     };
     this.refClientListButton = React.createRef();
-    this.toggleClientList = this.toggleClientList.bind(this);
-    this.onClickOutside = this.onClickOutside.bind(this);
+    this.refSettingsButton = React.createRef();
   }
 
   toggleClientList() {
@@ -18,18 +19,24 @@ class Navi extends Component {
     this.setState({ userListFlag: !toggle });
   }
 
-  onClickOutside(e) {
+  toggleSettings() {
+    const toggle = this.state.settingsFlag;
+    this.setState({ settingsFlag: !toggle });
+  }
+
+  clickOutsideUserList = (e) => {
     if (this.refClientListButton && this.state.userListFlag && !this.refClientListButton.current.contains(e.target)) {
       this.toggleClientList();
     }
   }
+
   // Well, it seems not clean enough to add event listener all over the document,
   // but what choice do I have...
   componentDidMount() {
-    document.addEventListener('mousedown', this.onClickOutside, true);
+    document.addEventListener('mousedown', this.clickOutsideUserList, true);
   }
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.onClickOutside, true);
+    document.removeEventListener('mousedown', this.clickOutsideUserList, true);
   }
 
   render() {
@@ -41,6 +48,9 @@ class Navi extends Component {
             Client List
             {this.state.userListFlag && <ClientList clientList={this.props.clientList} />}
           </button>
+          <button className="NaviButton" ref={this.refSettingsButton} onClick={() => { this.toggleSettings(); }}>
+            Settings
+          </button>
         </div>
         <div className='RightAlign' >
           {this.props.signedIn &&
@@ -50,6 +60,7 @@ class Navi extends Component {
             }}>Sign Out</button>
           }
         </div>
+        {!this.state.settingsFlag && <Settings />}
       </nav>
     )
   }

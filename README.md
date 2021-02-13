@@ -56,6 +56,8 @@ You can find the back-end side Github repository at [here](https://github.com/dl
 
 ## Version History
 ### 0.1.0
+  🔲 Add settings(nickname, delete account)
+  <br>
   ✅ Add client list
   <br>
   ✅ Add SQLite database to store user informations

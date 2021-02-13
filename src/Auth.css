@@ -34,10 +34,14 @@ h3{
   background-color: #313131;
   border: none;
   color: white;
-  transition: 0.3s;
 }
 .SubmitButton:hover{
+  transition: 0.3s;
   background-color: #CA3E47;
+}
+.SubmitButton:active{
+  transition: 0.1s;
+  background-color: darkorange;
 }
 .ToggleButton{
   font-size: 15pt;
@@ -47,10 +51,14 @@ h3{
   background-color: #313131;
   border: none;
   color: white;
-  transition: 0.3s;
 }
 .ToggleButton:hover{
+  transition: 0.3s;
   background-color: #CA3E47;
+}
+.ToggleButton:active{
+  transition: 0.1s;
+  background-color: darkorange;
 }
 .ButtonDiv{
   margin-left: auto;
