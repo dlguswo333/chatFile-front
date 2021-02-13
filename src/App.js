@@ -18,14 +18,13 @@ axios.defaults.withCredentials = true;
 class App extends Component {
   constructor(props) {
     super(props);
-    const signedIn = cookieParser.parse(document.cookie).signedIn;
+    const signedIn = (cookieParser.parse(document.cookie).signedIn ? true : false);
     this.state = {
       myId: '',
       messageList: [],
       clientList: new Map(),
       signedIn: signedIn,
       socketConnected: false,
-      socketConnectedInterval: null,
       inputText: '',
     };
     this.refChatBoard = React.createRef();
@@ -39,14 +38,15 @@ class App extends Component {
     this.signIn = this.signIn.bind(this);
     this.signUp = this.signUp.bind(this);
     this.signOut = this.signOut.bind(this);
+    this.updateSocketConnected = this.updateSocketConnected.bind(this);
   }
 
   componentDidMount() {
     // update socket connection status.
-    var socketConnectedInterval = setInterval(() => {
-      this.setState({ socketConnected: (socket.connected ? true : false) });
-    }, 1000);
-    this.setState({ socketConnectedInterval: socketConnectedInterval });
+    // var socketConnectedInterval = setInterval(() => {
+    //   this.setState({ socketConnected: (socket.connected ? true : false) });
+    // }, 1000);
+    this.updateSocketConnected();
 
     // if the client is signed in, connect to socket io.
     if (this.state.signedIn) {
@@ -90,7 +90,6 @@ class App extends Component {
         if (this.state.messageList !== [] || message.key !== this.state.messageList[this.state.messageList.length - 1].key)
           this.onReceive(message);
       });
-
     }
   }
 
@@ -205,12 +204,13 @@ class App extends Component {
     axios.post(`http://localhost:${data.back_port}/signOut`, {
     }).then((res) => {
       // nothing to do here.
+      this.setState({ messageList: [] });
+      window.location.reload();
     }).catch((err) => {
-      alert(err);
+      // Error occured, nothing to do here.
+      this.setState({ messageList: [] });
+      window.location.reload();
     });
-    // reloading the window will reset all states automatically, but I wanna make it sure.
-    this.setState({ messageList: [] });
-    window.location.reload();
   }
 
   getMyId() {
@@ -224,6 +224,11 @@ class App extends Component {
     }).catch((err) => {
       this.setState({ myId: 'undefined' });
     });
+  }
+
+  updateSocketConnected() {
+    this.setState({ socketConnected: (socket.connected ? true : false) });
+    setTimeout(this.updateSocketConnected, 1000);
   }
 
   render() {
