@@ -82,7 +82,11 @@ class App extends Component {
 
       // Receive all messages.
       socket.on(data.full_message_list, (fullMessageList) => {
-        this.setState({ messageList: fullMessageList });
+        const messageList = this.state.messageList;
+        // Full message lists must be at the first.
+        // However, in some cases, individual messages could have arrived eariler.
+        // In that case, move those messages at the back.
+        this.setState({ messageList: [...fullMessageList, ...messageList] });
       });
 
       // reject duplicated message if there is any.
@@ -222,6 +226,8 @@ class App extends Component {
       const id = res.data;
       this.setState({ myId: id });
     }).catch((err) => {
+      console.error(`getting my id failed`);
+      console.error(err);
       this.setState({ myId: 'undefined' });
     });
   }

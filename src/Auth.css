@@ -8,6 +8,7 @@
   transform: translate(-50%, -50%);
   color: white;
   background-color: #484C54;
+  box-shadow: 2px 3px 5px #222222;
   overflow: hidden;
   text-align: center;
 }
@@ -44,8 +45,8 @@ h3{
   background-color: darkorange;
 }
 .ToggleButton{
-  font-size: 15pt;
-  width: 50%;
+  font-size: 13pt;
+  width: 60%;
   padding: 10pt 0;
   border-radius: none;
   background-color: #313131;
@@ -64,7 +65,7 @@ h3{
   margin-left: auto;
   margin-right: none;
   display: inline-block;
-  width: 80%;
+  width: 100%;
   margin: 10pt 0 20pt 0;
 }
 form{

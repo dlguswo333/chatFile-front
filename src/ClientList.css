@@ -9,10 +9,14 @@
   border: 1px solid black;
   border-radius: 5px;
   border-color: #313131;
+  box-shadow: 2px 3px 3px #222222;
 }
 .Client{
   display: flex;
   padding: 10px;
+}
+.Client:not(:last-child){
+  border-bottom: solid 1px #FFFFFF33;
 }
 .ClientId{
   margin: 0 5px 0 5px;
