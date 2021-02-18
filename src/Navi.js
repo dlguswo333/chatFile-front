@@ -48,7 +48,9 @@ class Navi extends Component {
             Client List
             {this.state.userListFlag && <ClientList clientList={this.props.clientList} />}
           </button>
-          <button className="NaviButton" ref={this.refSettingsButton} onClick={() => { this.toggleSettings(); }}>
+          <button className="NaviButton"
+            ref={this.refSettingsButton}
+            onClick={() => { this.toggleSettings(); }}>
             Settings
           </button>
         </div>
@@ -60,7 +62,7 @@ class Navi extends Component {
             }}>Sign Out</button>
           }
         </div>
-        {!this.state.settingsFlag && <Settings />}
+        {this.state.settingsFlag && <Settings myId={this.props.myId} deleteAccount={this.props.deleteAccount} />}
       </nav>
     )
   }

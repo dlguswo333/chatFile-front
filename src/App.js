@@ -202,18 +202,29 @@ class App extends Component {
     });
   }
 
-
   signOut() {
     this.setState({ signedIn: false });
     axios.post(`http://localhost:${data.back_port}/signOut`, {
     }).then((res) => {
-      // nothing to do here.
-      this.setState({ messageList: [] });
+      // Successfuly signed out.
       window.location.reload();
     }).catch((err) => {
       // Error occured, nothing to do here.
-      this.setState({ messageList: [] });
       window.location.reload();
+    });
+  }
+
+  deleteAccount = (pw) => {
+    // Back-end will sign the client out after deleting the account. No need to worry about it.
+    let formData = new FormData();
+    formData.append('password', pw);
+    axios.post(`http://localhost:${data.back_port}/deleteAccount`, formData, {
+    }).then((res) => {
+      // Successfully deleted my id.
+      alert(`Your account has been deleted successfully!`);
+      window.location.reload();
+    }).catch((err) => {
+      alert((err.response.data ? err.response.data : 'Undefined error. Please try again later.'));
     });
   }
 
@@ -243,8 +254,10 @@ class App extends Component {
         <Navi
           signedIn={this.state.signedIn}
           signOut={this.signOut}
+          deleteAccount={this.deleteAccount}
           socketConnected={this.state.socketConnected}
           clientList={this.state.clientList}
+          myId={this.state.myId}
         />
         <ChatBoard
           messageList={this.state.messageList}

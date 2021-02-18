@@ -1,4 +1,4 @@
-.Settings{
+.Window{
   position: fixed;
   z-index: 1001;
   left: 50%;
@@ -10,4 +10,49 @@
   background-color: #484C54;
   box-shadow: 2px 3px 5px #22222299;
   text-align: center;
+}
+h3{
+  padding-bottom: 10pt;
+  border-bottom: 1px solid #FFFFFF77;
+}
+.Wrapper{
+  position: relative;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  margin: 10px 0;
+}
+/* .Attribute{
+  margin-right: 20%;
+} */
+
+.Value{
+  margin-left: auto;
+  margin-right: 5%;
+  max-width: 40%;
+  font-weight: bold;
+  border-bottom: solid 1px #FFFFFF66;
+}
+input{
+  line-height: 10pt;
+  border-radius: 5px;
+}
+.DeleteButton{
+  background-color: #00000000;
+  padding: 10px 10px;
+  font-size: 11pt;
+  font-weight: bold;
+  border: solid 1px white;
+  border-radius: 5px;
+  color: white;
+  margin-left: auto;
+  margin-right: 0;
+}
+.DeleteButton:hover{
+  transition: 0.3s;
+  background-color: red;
+}
+.DeleteButton:active{
+  transition: 0.1s;
+  background-color: darkorange;
 }
