@@ -22,7 +22,7 @@
 
 The repository you are seeing is the front-end side repository.  
 
-You can find the back-end side Github repository at [here](https://github.com/dlguswo333/chatFile_back).  
+You can find the back-end side Github repository at [here](https://github.com/dlguswo333/chatFile-back).  
 
 # How to Install chatFile
   1. Download the front-end and back-end repositories.
@@ -56,7 +56,7 @@ You can find the back-end side Github repository at [here](https://github.com/dl
 
 ## Version History
 ### 0.1.0
-  🔲 Add settings(nickname, delete account)
+  🔲 Add settings(nickname, delete account, change password)
   <br>
   ✅ Add client list
   <br>
