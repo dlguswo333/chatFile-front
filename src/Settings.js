@@ -18,19 +18,15 @@ class Settings extends Component {
   }
   render() {
     return (
-      <div className="Window">
+      <div className="SettingsWindow" ref={this.props.innerRef}>
         <h3>Settings</h3>
         <div className="Wrapper">
           <span className="Attribute">id:</span>
           <span className="Value">{this.props.myId}</span>
         </div>
         <div className="Wrapper">
-          <span className="Attribute">nickname:</span>
-          <span className="Value"></span>
-        </div>
-        <div className="Wrapper">
           <span className="Attribute">password:</span>
-          <input type="password" className="Value" ref={this.passwordRef}></input>
+          <input type="password" className="Value SettingsInput" ref={this.passwordRef}></input>
         </div>
         <button className="DeleteButton" onClick={() => {
           const pw = this.passwordRef.current.value;

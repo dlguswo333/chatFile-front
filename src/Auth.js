@@ -87,13 +87,14 @@ class Auth extends Component {
   render() {
     if (this.state.toggleSignIn)
       return (
-        <div className="Window">
+        <div className="AuthWindow">
           <h3>Sign In</h3>
           <form onSubmit={(e) => {
             this.onSubmit(e);
           }}>
             <div>
               <input type="text"
+                className="AuthInput"
                 maxLength={data.max_id_len}
                 placeholder="ID"
                 ref={this.refId}
@@ -105,6 +106,7 @@ class Auth extends Component {
             </div>
             <div>
               <input type="password"
+                className="AuthInput"
                 maxLength={data.max_pw_len}
                 placeholder="Password"
                 ref={this.refPw}
@@ -132,13 +134,14 @@ class Auth extends Component {
       );
     else
       return (
-        <div className="Window">
+        <div className="AuthWindow">
           <h3>Sign Up</h3>
           <form onSubmit={(e) => {
             this.onSubmit(e);
           }}>
             <div>
               <input type="text"
+                className="AuthInput"
                 maxLength={data.max_id_len}
                 placeholder="ID"
                 ref={this.refId}
@@ -150,6 +153,7 @@ class Auth extends Component {
             </div>
             <div>
               <input type="password"
+                className="AuthInput"
                 maxLength={data.max_pw_len}
                 placeholder="Password"
                 ref={this.refPw}
@@ -161,6 +165,7 @@ class Auth extends Component {
             </div>
             <div>
               <input type="password"
+                className="AuthInput"
                 maxLength={data.max_pw_len}
                 placeholder="Retype Password"
                 ref={this.refRePw}

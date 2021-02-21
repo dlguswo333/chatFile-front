@@ -1,4 +1,4 @@
-.Window{
+.SettingsWindow{
   position: fixed;
   z-index: 1001;
   left: 50%;
@@ -22,9 +22,6 @@ h3{
   width: 100%;
   margin: 10px 0;
 }
-/* .Attribute{
-  margin-right: 20%;
-} */
 
 .Value{
   margin-left: auto;
@@ -33,9 +30,11 @@ h3{
   font-weight: bold;
   border-bottom: solid 1px #FFFFFF66;
 }
-input{
-  line-height: 10pt;
+.SettingsInput{
+  line-height: 12pt;
   border-radius: 5px;
+  background-color: #00000000;
+  border: 1px solid #FFFFFF77;
 }
 .DeleteButton{
   background-color: #00000000;

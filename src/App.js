@@ -43,9 +43,6 @@ class App extends Component {
 
   componentDidMount() {
     // update socket connection status.
-    // var socketConnectedInterval = setInterval(() => {
-    //   this.setState({ socketConnected: (socket.connected ? true : false) });
-    // }, 1000);
     this.updateSocketConnected();
 
     // if the client is signed in, connect to socket io.

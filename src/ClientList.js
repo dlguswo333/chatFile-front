@@ -20,7 +20,7 @@ class ClientList extends Component {
 
   render() {
     return (
-      <div className="ClientList">
+      <div className="ClientList" ref={this.props.innerRef}>
         {this.getClientList()}
       </div>
     );

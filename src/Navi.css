@@ -1,4 +1,5 @@
 .Navi{
+  position: relative;
   height: 5%;
   display: flex;
   background-color: #484c54;
