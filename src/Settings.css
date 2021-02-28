@@ -31,7 +31,7 @@ h3{
   border-bottom: solid 1px #FFFFFF66;
 }
 .SettingsInput{
-  line-height: 12pt;
+  line-height: 15pt;
   border-radius: 5px;
   background-color: #00000000;
   border: 1px solid #FFFFFF77;
@@ -44,14 +44,31 @@ h3{
   border: solid 1px white;
   border-radius: 5px;
   color: white;
-  margin-left: auto;
-  margin-right: 0;
+  margin: 0 10px;
 }
 .DeleteButton:hover{
   transition: 0.3s;
   background-color: red;
 }
 .DeleteButton:active{
+  transition: 0.1s;
+  background-color: darkorange;
+}
+.ChangePwButton{
+  background-color: #00000000;
+  padding: 10px 10px;
+  font-size: 11pt;
+  font-weight: bold;
+  border: solid 1px white;
+  border-radius: 5px;
+  color: white;
+  margin: 0 10px;
+}
+.ChangePwButton:hover{
+  transition: 0.3s;
+  background-color: red;
+}
+.ChangePwButton:active{
   transition: 0.1s;
   background-color: darkorange;
 }
