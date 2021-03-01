@@ -28,7 +28,7 @@ class Settings extends Component {
       alert("New passwords do not match! Please check it again.");
       return false;
     }
-    // TODO Call props.changePassword function here.
+    this.props.changePassword(pw, newPw);
   }
   render() {
     return (

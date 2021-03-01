@@ -76,7 +76,13 @@ class Navi extends Component {
           }
         </div>
         {this.state.clientListFlag && <ClientList innerRef={this.refClientList} clientList={this.props.clientList} />}
-        {this.state.settingsFlag && <Settings innerRef={this.refSettings} myId={this.props.myId} deleteAccount={this.props.deleteAccount} />}
+        {this.state.settingsFlag &&
+          <Settings
+            innerRef={this.refSettings}
+            myId={this.props.myId}
+            deleteAccount={this.props.deleteAccount}
+            changePassword={this.props.changePassword}
+          />}
       </nav>
     )
   }

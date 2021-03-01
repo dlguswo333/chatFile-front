@@ -35,9 +35,6 @@ class App extends Component {
     this.sendFile = this.sendFile.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
     this.onInputTextChange = this.onInputTextChange.bind(this);
-    this.signIn = this.signIn.bind(this);
-    this.signUp = this.signUp.bind(this);
-    this.signOut = this.signOut.bind(this);
     this.updateSocketConnected = this.updateSocketConnected.bind(this);
   }
 
@@ -167,7 +164,7 @@ class App extends Component {
       this.refChatBoard.current.scrollToBottom(false);
   }
 
-  signIn(id, pw) {
+  signIn = (id, pw) => {
     var formData = new FormData();
     axios.post(`http://localhost:${data.back_port}/signIn`, formData, {
       auth: {
@@ -181,7 +178,7 @@ class App extends Component {
     });
   }
 
-  signUp(id, pw) {
+  signUp = (id, pw) => {
     var formData = new FormData();
     axios.post(`http://localhost:${data.back_port}/signUp`, formData, {
       auth: {
@@ -199,7 +196,7 @@ class App extends Component {
     });
   }
 
-  signOut() {
+  signOut = () => {
     this.setState({ signedIn: false });
     axios.post(`http://localhost:${data.back_port}/signOut`, {
     }).then((res) => {
@@ -240,6 +237,26 @@ class App extends Component {
     });
   }
 
+  changePassword = (pw, newPw) => {
+    if (!this.state.signedIn) {
+      // If not signed in, no need to change password.
+      return;
+    }
+    let formData = new FormData();
+    formData.append('password', pw);
+    formData.append('newPassword', newPw);
+    axios.post(`http://localhost:${data.back_port}/changePassword`, formData, {
+    }).then((res) => {
+      // Successfully changed password.
+      // Sign out.
+      alert(`Your password has been changed successfully.\nPlease sign in with the new password.`);
+      this.signOut();
+    }).catch((err) => {
+      // Changing password failed.
+      alert(err.response.data);
+    });
+  }
+
   updateSocketConnected() {
     this.setState({ socketConnected: (socket.connected ? true : false) });
     setTimeout(this.updateSocketConnected, 1000);
@@ -252,6 +269,7 @@ class App extends Component {
           signedIn={this.state.signedIn}
           signOut={this.signOut}
           deleteAccount={this.deleteAccount}
+          changePassword={this.changePassword}
           socketConnected={this.state.socketConnected}
           clientList={this.state.clientList}
           myId={this.state.myId}
