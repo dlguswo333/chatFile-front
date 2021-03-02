@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import data from './data';
 import './Settings.css';
 
 class Settings extends Component {
@@ -25,7 +26,15 @@ class Settings extends Component {
     const newPw = this.newPwRef.current.value;
     const reNewPw = this.reNewPwRef.current.value;
     if (newPw !== reNewPw) {
-      alert("New passwords do not match! Please check it again.");
+      alert(`New passwords do not match! Please check it again.`);
+      return false;
+    }
+    if (!(data.min_pw_len <= newPw.length)) {
+      alert(`Password must be at least ${data.min_pw_len} long!`);
+      return false;
+    }
+    if (!(newPw.length <= data.max_pw_len)) {
+      alert(`Password must be at most ${data.max_pw_len} long!`);
       return false;
     }
     this.props.changePassword(pw, newPw);
