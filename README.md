@@ -56,7 +56,7 @@ You can find the back-end side Github repository at [here](https://github.com/dl
 
 ## Version History
 ### 0.1.0
-  🔲 Add settings(nickname, delete account, change password)
+  ✅ Add settings(nickname, delete account, change password)
   <br>
   ✅ Add client list
   <br>
