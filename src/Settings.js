@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import data from './data';
+import data from './data.json';
 import './Settings.css';
 
 class Settings extends Component {
@@ -70,7 +70,9 @@ class Settings extends Component {
         <button className="DeleteButton" onClick={() => {
           const pw = this.pwRef.current.value;
           if (this.checkPassword(pw)) {
-            this.props.deleteAccount(pw);
+            if (window.confirm('This action is irreversible! Do you want to continue?')) {
+              this.props.deleteAccount(pw);
+            }
           }
         }}>
           Delete Account

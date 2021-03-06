@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import data from './data';
+import data from './data.json';
 import './Auth.css';
 
 class Auth extends Component {

@@ -6,9 +6,10 @@ import InputBoard from './InputBoard';
 import io from 'socket.io-client';
 import Navi from './Navi';
 import Auth from './Auth';
-import data from './data';
 import ToastBoard from './ToastBoard';
+import data from './data.json';
 import './App.css';
+
 
 const socket = io(`http://localhost:${data.back_port}`, {
   withCredentials: true
