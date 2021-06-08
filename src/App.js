@@ -10,7 +10,9 @@ import ToastBoard from './ToastBoard';
 import data from './data.json';
 import './App.css';
 
-
+/**
+ * @type {io.Socket} socket
+ */
 const socket = io(`http://localhost:${data.back_port}`, {
   withCredentials: true
 });
@@ -45,9 +47,16 @@ class App extends Component {
 
     // if the client is signed in, connect to socket io.
     if (this.state.signedIn) {
-      // On socket io connection, get my id.
+      // On socket io connection, get my id and get full list of messages.
       socket.on(data.front_connect, () => {
         this.getMyId();
+        const messageList = this.state.messageList;
+        try {
+          const firstMessageDate = messageList[0].date;
+          socket.emit(data.message_list, firstMessageDate);
+        } catch {
+          socket.emit(data.message_list, -1);
+        }
       });
 
       // Receive full client list.
@@ -76,12 +85,12 @@ class App extends Component {
       });
 
       // Receive all messages.
-      socket.on(data.full_message_list, (fullMessageList) => {
+      socket.on(data.message_list, (messages) => {
         const messageList = this.state.messageList;
         // Full message lists must be at the first.
         // However, in some cases, individual messages could have arrived eariler.
         // In that case, move those messages at the back.
-        this.setState({ messageList: [...fullMessageList, ...messageList] });
+        this.setState({ messageList: [...messages, ...messageList] });
       });
 
       // reject duplicated message if there is any.
