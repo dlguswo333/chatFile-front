@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Settings from './Settings';
 import ClientList from './ClientList';
 import './Navi.css';
 
@@ -8,12 +7,10 @@ class Navi extends Component {
     super(props);
     this.state = {
       clientListFlag: false,
-      settingsFlag: false
     };
     this.refClientListButton = React.createRef();
     this.refClientList = React.createRef();
     this.refSettingsButton = React.createRef();
-    this.refSettings = React.createRef();
   }
 
   toggleClientList() {
@@ -28,27 +25,13 @@ class Navi extends Component {
     }
   }
 
-  toggleSettings() {
-    const toggle = this.state.settingsFlag;
-    this.setState({ settingsFlag: !toggle });
-  }
-  clickOutsideSettings = (e) => {
-    e.stopPropagation();
-    if (this.refSettingsButton && this.refSettings && this.state.settingsFlag) {
-      if (!this.refSettingsButton.current.contains(e.target) && !this.refSettings.current.contains(e.target))
-        this.toggleSettings();
-    }
-  }
-
   // Well, it seems not clean enough to add event listener all over the document,
   // but what choice do I have...
   componentDidMount() {
     document.addEventListener('mousedown', this.clickOutsideUserList);
-    document.addEventListener('mousedown', this.clickOutsideSettings);
   }
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.clickOutsideUserList);
-    document.removeEventListener('mousedown', this.clickOutsideSettings);
   }
 
   render() {
@@ -63,7 +46,7 @@ class Navi extends Component {
           </button>
           <button className="NaviButton"
             ref={this.refSettingsButton}
-            onClick={() => { this.toggleSettings(); }}>
+            onClick={this.props.toggleShowSettings}>
             Settings
           </button>
         </div>
@@ -76,13 +59,6 @@ class Navi extends Component {
           }
         </div>
         {this.state.clientListFlag && <ClientList innerRef={this.refClientList} clientList={this.props.clientList} />}
-        {this.state.settingsFlag &&
-          <Settings
-            innerRef={this.refSettings}
-            myId={this.props.myId}
-            deleteAccount={this.props.deleteAccount}
-            changePassword={this.props.changePassword}
-          />}
       </nav>
     )
   }
