@@ -1,0 +1,50 @@
+.ClientList {
+  position: absolute;
+  z-index: 100;
+  top: calc(100% - 1px);
+  left: -1px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  background-color: #484c54;
+  border: 1px solid black;
+  border-radius: 0 5px 5px 0;
+  border-color: #313131;
+  box-shadow: 2px 3px 3px black;
+  animation: 0.5s ease 0s growHeight;
+}
+.ClientList::-webkit-scrollbar {
+  display: none;
+}
+@keyframes growHeight {
+  from {
+    max-height: 0;
+  }
+  to {
+    max-height: 30vh;
+  }
+}
+.Client {
+  display: flex;
+  padding: 10px;
+}
+.Client:not(:last-child) {
+  border-bottom: solid 1px #ffffff33;
+}
+.ClientId {
+  margin: 0 5px 0 5px;
+}
+.Connection {
+  align-self: center;
+  margin: 0 5px 0 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  line-height: 100%;
+}
+.Connected {
+  background-color: green;
+}
+.Disconnected {
+  background-color: red;
+}

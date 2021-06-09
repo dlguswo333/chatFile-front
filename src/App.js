@@ -8,6 +8,8 @@ import Navi from './Navi';
 import Auth from './Auth';
 import ToastBoard from './ToastBoard';
 import data from './data.json';
+import Settings from './Settings';
+import Blind from './Blind';
 import './App.css';
 
 /**
@@ -29,6 +31,7 @@ class App extends Component {
       signedIn: signedIn,
       socketConnected: false,
       inputText: '',
+      showSettings: false
     };
     this.refChatBoard = React.createRef();
     this.refToastBoard = React.createRef();
@@ -272,17 +275,21 @@ class App extends Component {
     setTimeout(this.updateSocketConnected, 1000);
   }
 
+  toggleShowSettings = () => {
+    const tmp = this.state.showSettings;
+    this.setState({ showSettings: !tmp });
+  }
+
   render() {
     return (
       <div className="App">
         <Navi
           signedIn={this.state.signedIn}
           signOut={this.signOut}
-          deleteAccount={this.deleteAccount}
-          changePassword={this.changePassword}
           socketConnected={this.state.socketConnected}
           clientList={this.state.clientList}
           myId={this.state.myId}
+          toggleShowSettings={this.toggleShowSettings}
         />
         <ChatBoard
           messageList={this.state.messageList}
@@ -290,15 +297,23 @@ class App extends Component {
           getFunction={this.getFunction}
           downloadFile={this.downloadFile}
           ref={this.refChatBoard}
-        />
+        >
+        </ChatBoard>
         <InputBoard name="input"
           input={this.state.inputText}
           onInputTextChange={this.onInputTextChange}
           sendText={this.sendText}
           sendFile={this.sendFile}
         />
+        {this.state.showSettings &&
+          <Settings
+            myId={this.state.myId}
+            deleteAccount={this.deleteAccount}
+            changePassword={this.changePassword}
+            toggleShowSettings={this.toggleShowSettings}
+          />}
         {!this.state.signedIn && <Auth ref={this.refAuth} signIn={this.signIn} signUp={this.signUp} />}
-        {!this.state.signedIn && <div className="BackgroundBlur"></div>}
+        {(!this.state.signedIn || this.state.showSettings) && <Blind />}
         <ToastBoard ref={this.refToastBoard} />
       </div>
     );

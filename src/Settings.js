@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import data from './data.json';
-import './Settings.css';
+import { ReactComponent as XIcon } from './style/x.svg';
+import './style/Settings.scss';
 
 class Settings extends Component {
   constructor(props) {
@@ -43,6 +44,11 @@ class Settings extends Component {
     return (
       <div className="SettingsWindow" ref={this.props.innerRef}>
         <h3>Settings</h3>
+        <div className="CloseIcon"
+          onClick={this.props.toggleShowSettings}
+        >
+          <XIcon />
+        </div>
         <div className="Wrapper">
           <span className="Attribute">ID:</span>
           <span className="Value">{this.props.myId}</span>
@@ -59,22 +65,24 @@ class Settings extends Component {
           <span className="Attribute">Retype New Password:</span>
           <input type="password" className="Value SettingsInput" ref={this.reNewPwRef}></input>
         </div>
-        <button className="ChangePwButton" onClick={() => {
-          const pw = this.pwRef.current.value;
-          if (this.checkPassword(pw)) {
-            this.changePassword(pw);
-          }
-        }}>
+        <button className="ChangePwButton"
+          onClick={() => {
+            const pw = this.pwRef.current.value;
+            if (this.checkPassword(pw)) {
+              this.changePassword(pw);
+            }
+          }}>
           Change Password
         </button>
-        <button className="DeleteButton" onClick={() => {
-          const pw = this.pwRef.current.value;
-          if (this.checkPassword(pw)) {
-            if (window.confirm('This action is irreversible! Do you want to continue?')) {
-              this.props.deleteAccount(pw);
+        <button className="DeleteButton"
+          onClick={() => {
+            const pw = this.pwRef.current.value;
+            if (this.checkPassword(pw)) {
+              if (window.confirm('This action is irreversible! Do you want to continue?')) {
+                this.props.deleteAccount(pw);
+              }
             }
-          }
-        }}>
+          }}>
           Delete Account
         </button>
       </div>

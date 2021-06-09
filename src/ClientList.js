@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './ClientList.css';
+import './style/ClientList.css';
 
 class ClientList extends Component {
-  getClientList() {
+  showClientList() {
     let clientList = [];
     this.props.clientList.forEach((value, id) => {
       if (id !== undefined)
@@ -21,7 +21,7 @@ class ClientList extends Component {
   render() {
     return (
       <div className="ClientList" ref={this.props.innerRef}>
-        {this.getClientList()}
+        {this.showClientList()}
       </div>
     );
   }
