@@ -15,7 +15,7 @@ import './App.css';
 /**
  * @type {io.Socket} socket
  */
-const socket = io(`http://localhost:${data.back_port}`, {
+const socket = io(`${data.server_url}:${data.back_port}`, {
   withCredentials: true
 });
 axios.defaults.withCredentials = true;
@@ -23,7 +23,7 @@ axios.defaults.withCredentials = true;
 class App extends Component {
   constructor(props) {
     super(props);
-    const signedIn = (cookieParser.parse(document.cookie).signedIn ? true : false);
+    const signedIn = (cookieParser.parse(document.cookie).signedIn === 'true' ? true : false);
     this.state = {
       myId: '',
       messageList: [],
@@ -144,7 +144,7 @@ class App extends Component {
     const toastKey = this.refToastBoard.current.pushToast(
       { type: 'progress', content: `Uploading File ${file.name}` }
     );
-    axios.post(`http://localhost:${data.back_port}/files`, formData, {
+    axios.post(`${data.server_url}:${data.back_port}/files`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
@@ -160,7 +160,7 @@ class App extends Component {
   }
 
   downloadFile(key) {
-    var link = `http://localhost:${data.back_port}/files/${key}`;
+    var link = `${data.server_url}:${data.back_port}/files/${key}`;
     var a = document.createElement('A');
     a.href = link;
     document.body.appendChild(a);
@@ -179,7 +179,7 @@ class App extends Component {
 
   signIn = (id, pw) => {
     var formData = new FormData();
-    axios.post(`http://localhost:${data.back_port}/signIn`, formData, {
+    axios.post(`${data.server_url}:${data.back_port}/signIn`, formData, {
       auth: {
         username: id,
         password: pw
@@ -193,7 +193,7 @@ class App extends Component {
 
   signUp = (id, pw) => {
     var formData = new FormData();
-    axios.post(`http://localhost:${data.back_port}/signUp`, formData, {
+    axios.post(`${data.server_url}:${data.back_port}/signUp`, formData, {
       auth: {
         username: id,
         password: pw
@@ -211,7 +211,7 @@ class App extends Component {
 
   signOut = () => {
     this.setState({ signedIn: false });
-    axios.post(`http://localhost:${data.back_port}/signOut`, {
+    axios.post(`${data.server_url}:${data.back_port}/signOut`, {
     }).then((res) => {
       // Successfuly signed out.
       window.location.reload();
@@ -225,7 +225,7 @@ class App extends Component {
     // Back-end will sign the client out after deleting the account. No need to worry about it.
     let formData = new FormData();
     formData.append('password', pw);
-    axios.post(`http://localhost:${data.back_port}/deleteAccount`, formData, {
+    axios.post(`${data.server_url}:${data.back_port}/deleteAccount`, formData, {
     }).then((res) => {
       // Successfully deleted my id.
       alert(`Your account has been deleted successfully!`);
@@ -240,7 +240,7 @@ class App extends Component {
       // If not signed in, no need to get my id.
       return;
     }
-    axios.post(`http://localhost:${data.back_port}/getMyId`, {}).then((res) => {
+    axios.post(`${data.server_url}:${data.back_port}/getMyId`, {}).then((res) => {
       const id = res.data;
       this.setState({ myId: id });
     }).catch((err) => {
@@ -258,7 +258,7 @@ class App extends Component {
     let formData = new FormData();
     formData.append('password', pw);
     formData.append('newPassword', newPw);
-    axios.post(`http://localhost:${data.back_port}/changePassword`, formData, {
+    axios.post(`${data.server_url}:${data.back_port}/changePassword`, formData, {
     }).then((res) => {
       // Successfully changed password.
       // Sign out.
