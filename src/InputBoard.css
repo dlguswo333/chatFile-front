@@ -1,39 +1,48 @@
-.InputBoard{
+.InputBoard {
   display: flex;
   height: 10%;
   background-color: #484c54;
   text-align: center;
   justify-content: center;
   padding: 5px;
+  display: flex;
+  flex-direction: row;
 }
-.InputArea{
+.InputArea {
   color: whitesmoke;
   border: 1px solid white;
   background-color: #484c54;
-  width: 70%;
   font-size: 12pt;
   border-radius: 5px;
-  resize: none;   
+  flex: 1;
+  resize: none;
   overflow: hidden;
+  padding: 2px;
 }
-.SendButton{
+.SendButton {
   border-radius: none;
   align-self: stretch;
   background-color: #313131;
   border: 1px white;
   color: white;
-  padding-top: 0.5%;
-  padding-bottom: 0.5%;
-  padding-left: 1%;
-  padding-right: 1%;
-  margin-left: 0.1%;
-  margin-right: 0.1%;
+  padding: 10px;
+  margin-left: 10px;
 }
-.SendButton:hover{
-  transition: 0.3s;
-  background-color: crimson;
+@media (hover: hover) and (pointer: fine) {
+  .SendButton:hover {
+    transition: 0.3s;
+    background-color: crimson;
+  }
 }
-.SendButton:active{
+.SendButton:active {
   transition: 0.1s;
   background-color: darkorange;
+}
+@media screen and (min-width: 800px) {
+  .InputBoard {
+    padding: 5px 10%;
+  }
+  .SendButton {
+    padding: 10px;
+  }
 }

@@ -1,7 +1,7 @@
 .App {
   text-align: center;
-  min-height: 600px;
-  min-width: 800px;
+  width: 100vw;
   height: 100vh;
+  overflow: hidden;
   background-color: #212121;
 }
